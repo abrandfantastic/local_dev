@@ -1,0 +1,65 @@
+version: '3.3'
+
+services:
+
+  wordpress:
+    image: wordpress
+    
+    container_name: middlewich
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - traefik
+  
+    restart: always
+    ports:
+      - 8004:80
+  
+    environment:
+      WORDPRESS_DB_HOST: mdb
+      WORDPRESS_DB_USER: lonely
+      WORDPRESS_DB_PASSWORD: lonely1*
+      WORDPRESS_DB_NAME: lonelydb
+    volumes:
+      - wordpress:/var/www/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.middlewich.rule=Host(`middlewich.app.localhost`)"
+      - "traefik.http.routers.middlewich.tls=true"
+      - "traefik.tcp.services.middlewich.loadbalancer.server.port=8004"
+      
+
+      
+      
+     
+
+
+  mdb:
+    image: lscr.io/linuxserver/mariadb
+   
+    restart: always
+    environment:
+      MYSQL_DATABASE: lonelydb
+      MYSQL_USER: lonely
+      MYSQL_PASSWORD: lonely1*
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - traefik  
+      
+  redis:
+    image: redis:6.2
+    
+    networks:
+      - traefik
+    
+networks:
+  traefik:
+    external: true   
+
+
+volumes:
+  wordpress:
+  db:

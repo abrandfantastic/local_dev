@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+   whoami:
+    image: containous/whoami:latest
+    networks:
+      - traefik
+    container_name: whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.app.localhost`)"
+      - "traefik.http.routers.whoami.tls=true"
+    restart: unless-stopped
+
+networks:
+  traefik:
+    external: true 
