@@ -7,16 +7,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik=true"
-      - "traefik.http.routers.traefik.tls=true"
-      
+      - "traefik.http.routers.traefik.tls=true"   
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
     ports:
       - 80:80
       - 443:443
+      # - 8080:8080 #for access to Traefik dashboard
     networks:
       - traefik  
-   
-   
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -48,9 +46,6 @@ services:
       - "traefik.http.routers.portainer-secure.rule=Host(`portainer.app.localhost`)"
       - "traefik.http.routers.portainer-secure.tls=true"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000" 
-      - "traefik.docker.network=proxy" 
-
-
 
 
 networks:
