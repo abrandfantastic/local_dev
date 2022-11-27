@@ -14,9 +14,9 @@ services:
       - 8001:80  # increase port by 1 when creating a new stack 8001 to 8002
     environment:
       WORDPRESS_DB_HOST: adb 
-      WORDPRESS_DB_USER: lonely
-      WORDPRESS_DB_PASSWORD: lonely1*
-      WORDPRESS_DB_NAME: lonelydb
+      WORDPRESS_DB_USER: fantastic
+      WORDPRESS_DB_PASSWORD: fantastic1*
+      WORDPRESS_DB_NAME: fantasticdb
     volumes:
       - wordpress:/var/www/html
     labels:
@@ -30,9 +30,9 @@ services:
     image: lscr.io/linuxserver/mariadb 
     restart: always
     environment:
-      MYSQL_DATABASE: lonelydb
-      MYSQL_USER: lonely
-      MYSQL_PASSWORD: lonely1*
+      MYSQL_DATABASE: fantasticdb
+      MYSQL_USER: fantastic
+      MYSQL_PASSWORD: fantastic1*
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
     volumes:
       - db:/var/lib/mysql
