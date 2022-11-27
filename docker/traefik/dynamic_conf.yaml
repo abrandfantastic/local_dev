@@ -8,9 +8,9 @@ http:
           - main: "app.localhost"
             sans:
               - "*.app.localhost"
-          - main: "domain.local"
+          - main: "wp.local"
             sans:
-              - "*.domain.local"
+              - "*.wp.local"
 
 tls:
   certificates:
