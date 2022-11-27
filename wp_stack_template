@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+
+  wordpress:
+    image: wordpress    
+    container_name: abrandfantastic # rename to wordpress site
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - traefik  
+    restart: always
+    ports:
+      - 8001:80  # increase port by 1 when creating a new stack 8001 to 8002
+    environment:
+      WORDPRESS_DB_HOST: adb 
+      WORDPRESS_DB_USER: lonely
+      WORDPRESS_DB_PASSWORD: lonely1*
+      WORDPRESS_DB_NAME: lonelydb
+    volumes:
+      - wordpress:/var/www/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      - "traefik.http.routers.abrandfantastic.rule=Host(`abrandfantastic.wp.localhost`)"
+      - "traefik.http.routers.abrandfantastic.tls=true"
+      - "traefik.tcp.services.abrandfantastic.loadbalancer.server.port=8001"
+                 
+  adb:
+    image: lscr.io/linuxserver/mariadb 
+    restart: always
+    environment:
+      MYSQL_DATABASE: lonelydb
+      MYSQL_USER: lonely
+      MYSQL_PASSWORD: lonely1*
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - traefik  
+      
+  redis:
+    image: redis:6.2   
+    networks:
+      - traefik
+    
+networks:
+  traefik:
+    external: true   
+
+volumes:
+  wordpress:
+  db:
